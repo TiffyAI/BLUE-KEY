@@ -72,12 +72,8 @@
     }
 
     @keyframes slideDiagonal {
-      0% {
-        transform: translate(-100vw, 0) rotate(30deg);
-      }
-      100% {
-        transform: translate(0, 100vh) rotate(30deg);
-      }
+      0% { transform: translate(-100vw, 0) rotate(30deg); }
+      100% { transform: translate(0, 100vh) rotate(30deg); }
     }
 
     .corner-pulse {
@@ -112,6 +108,27 @@
 
   <!-- Targeting bottom-right visually -->
   <div class="corner-pulse"></div>
+
+  <!-- Notification sound -->
+  <audio id="notificationSound" src="https://tiffyai.github.io/Stamp/notification.wav" preload="auto"></audio>
+
+  <script>
+    // Wait until Tiffy widget is added by script
+    window.addEventListener("DOMContentLoaded", () => {
+      const observer = new MutationObserver(() => {
+        const widget = document.getElementById("tiffy-awareness-widget");
+        if (widget) {
+          widget.addEventListener("click", () => {
+            const sound = document.getElementById("notificationSound");
+            sound.play().catch(e => console.log("⚠️ Sound blocked until interaction"));
+          });
+          observer.disconnect();
+        }
+      });
+
+      observer.observe(document.body, { childList: true, subtree: true });
+    });
+  </script>
 
 </body>
 </html>
